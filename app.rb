@@ -1,6 +1,9 @@
 require 'sinatra'
 require 'json'
 
+set :bind, 'localhost'
+set :port, 4003
+
 get '/' do
   {RUBY_DESCRIPTION: RUBY_DESCRIPTION}.inspect
 end
