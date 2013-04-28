@@ -17,7 +17,7 @@ post '/' do
       msg = event['message']
       next unless %w[computer_science vim].include? msg['room']
       text = msg['text']
-      next unless /^(GET|SET|MGET|MSET|INFO)\s+/
+      next unless /^(GET|SET|MGET|MSET|INFO)\s+/ =~ text
       s.write "#{text}\r\n"
       begin
         timeout(5) do
