@@ -20,14 +20,14 @@ post '/' do
       next unless /^(GET|SET|MGET|MSET|INFO)\s+/ =~ text
       s.write "#{text}\r\n"
       begin
-        timeout(5) do
+        timeout(5) {
           message, _ = s.recvfrom(1024*10)
           if message.size > 1000
             "#{message[0...800]}... (total #{message.size} chars)"
           else
             message
           end
-        end
+        }.gsub(/\r/, '').each_line.reject {|line| /^\$\d+$/ =~ line }.join
       rescue Timeout::Error
         "Timed out!"
       end
