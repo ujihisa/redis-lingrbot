@@ -9,6 +9,7 @@ begin
       "#{message[0...800]}... (total #{message.size} chars)"
     else
       message
+    end
   end
 rescue Timeout::Error
   "Timed out!"
