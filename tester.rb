@@ -4,8 +4,8 @@ s = TCPSocket.open('localhost', 6379)
 s.write "#{ARGV.shift}\r\n"
 begin
   timeout(5) do
-    message, client_address = s.recvfrom(999)
-    p [message, client_address]
+    message, _ = s.recvfrom(999)
+    p message
   end
 rescue Timeout::Error
   "Timed out!"
