@@ -16,7 +16,7 @@ post '/' do
     JSON.parse(request.body.string)['events'].map {|event|
       msg = event['message']
       next unless %w[computer_science vim].include? msg['room']
-      text = msg.text
+      text = msg['text']
       next unless /^(GET|SET|MGET|MSET|INFO)\s+/
       s.write "#{text}\r\n"
       begin
