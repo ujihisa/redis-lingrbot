@@ -6,18 +6,19 @@ require 'json'
 set :bind, 'localhost'
 set :port, 4003
 
+s = TCPSocket.open('localhost', 6379)
+
 get '/' do
-  {RUBY_DESCRIPTION: RUBY_DESCRIPTION}.inspect
+  {RUBY_DESCRIPTION: RUBY_DESCRIPTION, s: s}.inspect
 end
 
-s = TCPSocket.open('localhost', 6379)
 post '/' do
   begin
     JSON.parse(request.body.string)['events'].map {|event|
       msg = event['message']
       next unless %w[computer_science vim].include? msg['room']
       text = msg['text']
-      next unless /^(GET|SET|MGET|MSET|INFO)\s+/ =~ text
+      next unless /^(GET|SET|MGET|MSET|INFO|SAVE)/ =~ text
       s.write "#{text}\r\n"
       begin
         timeout(5) {
