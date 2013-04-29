@@ -16,9 +16,9 @@ post '/' do
   begin
     JSON.parse(request.body.string)['events'].map {|event|
       msg = event['message']
-      next unless %w[computer_science vim].include? msg['room']
+      next unless %w[computer_science vim lingr].include? msg['room']
       text = msg['text']
-      next unless /^(GET|SET|MGET|MSET|INFO|SAVE)/ =~ text
+      next unless /^(GET|SET|DEL|ECHO|KEYS|PING|TIME|TTL|TYPE|MGET|MSET|INFO|SAVE)/ =~ text
       s.write "#{text}\r\n"
       begin
         timeout(5) {
